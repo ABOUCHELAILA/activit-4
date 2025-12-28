@@ -1,68 +1,54 @@
 package com.sdia.conferenceservice.web;
 
-import com.sdia.conferenceservice.clients.KeynoteClient;
-import com.sdia.conferenceservice.entities.Conference;
-import com.sdia.conferenceservice.entities.Review;
-import com.sdia.conferenceservice.model.Keynote;
-import com.sdia.conferenceservice.repositories.ConferenceRepository;
-import com.sdia.conferenceservice.repositories.ReviewRepository;
-import lombok.AllArgsConstructor;
+import com.sdia.conferenceservice.dtos.ConferenceRequestDTO;
+import com.sdia.conferenceservice.dtos.ConferenceResponseDTO;
+import com.sdia.conferenceservice.dtos.ReviewRequestDTO;
+import com.sdia.conferenceservice.dtos.ReviewResponseDTO;
+import com.sdia.conferenceservice.services.ConferenceService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ConferenceController {
-    private ConferenceRepository conferenceRepository;
-    private ReviewRepository reviewRepository;
-    private KeynoteClient keynoteClient;
+    private final ConferenceService conferenceService;
 
     @GetMapping("/conferences")
-    public List<Conference> getAllConferences() {
-        return conferenceRepository.findAll();
+    public List<ConferenceResponseDTO> getAllConferences() {
+        return conferenceService.findAll();
     }
 
     @GetMapping("/conferences/{id}")
-    public Conference getConferenceById(@PathVariable Long id) {
-        Conference conference = conferenceRepository.findById(id).orElse(null);
-        if (conference != null && conference.getKeynoteId() != null) {
-            // Ici on pourrait enrichir l'objet si on avait un DTO, 
-            // mais pour l'instant on se contente de l'id
-        }
-        return conference;
+    public ConferenceResponseDTO getConferenceById(@PathVariable Long id) {
+        return conferenceService.findById(id);
     }
 
     @PostMapping("/conferences")
-    public Conference saveConference(@RequestBody Conference conference) {
-        return conferenceRepository.save(conference);
+    public ConferenceResponseDTO saveConference(@RequestBody ConferenceRequestDTO requestDTO) {
+        return conferenceService.save(requestDTO);
     }
 
     @PutMapping("/conferences/{id}")
-    public Conference updateConference(@PathVariable Long id, @RequestBody Conference conference) {
-        conference.setId(id);
-        return conferenceRepository.save(conference);
+    public ConferenceResponseDTO updateConference(@PathVariable Long id, @RequestBody ConferenceRequestDTO requestDTO) {
+        return conferenceService.update(id, requestDTO);
     }
 
     @DeleteMapping("/conferences/{id}")
     public void deleteConference(@PathVariable Long id) {
-        conferenceRepository.deleteById(id);
+        conferenceService.delete(id);
     }
 
     @GetMapping("/conferences/{id}/reviews")
-    public List<Review> getReviewsByConference(@PathVariable Long id) {
-        Conference conference = conferenceRepository.findById(id).orElse(null);
-        return conference != null ? conference.getReviews() : null;
+    public List<ReviewResponseDTO> getReviewsByConference(@PathVariable Long id) {
+        return conferenceService.getReviewsByConferenceId(id);
     }
 
     @PostMapping("/conferences/{id}/reviews")
-    public Review addReviewToConference(@PathVariable Long id, @RequestBody Review review) {
-        Conference conference = conferenceRepository.findById(id).orElse(null);
-        if (conference != null) {
-            review.setConference(conference);
-            return reviewRepository.save(review);
-        }
-        return null;
+    public ReviewResponseDTO addReviewToConference(@PathVariable Long id, @RequestBody ReviewRequestDTO requestDTO) {
+        requestDTO.setConferenceId(id);
+        return conferenceService.addReviewToConference(requestDTO);
     }
 }

@@ -26,13 +26,13 @@ public class ConferenceServiceApplication {
             conferenceRepository.save(Conference.builder()
                     .titre("Spring Cloud Conference")
                     .date(new Date())
-                    .duree(60)
+                    .duree(60.0)
                     .keynoteId(1L)
                     .build());
             conferenceRepository.save(Conference.builder()
                     .titre("Microservices Architecture")
                     .date(new Date())
-                    .duree(45)
+                    .duree(45.0)
                     .keynoteId(2L)
                     .build());
 

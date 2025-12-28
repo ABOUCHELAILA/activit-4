@@ -1,23 +1,19 @@
-package com.sdia.conferenceservice.entities;
+package com.sdia.conferenceservice.dtos;
 
-import jakarta.persistence.*;
+import com.sdia.conferenceservice.model.Keynote;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.List;
 
-@Entity
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
-public class Conference {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ConferenceResponseDTO {
     private Long id;
     private String titre;
     private Date date;
     private double duree;
     private Long keynoteId;
-    @OneToMany(mappedBy = "conference", cascade = CascadeType.ALL)
-    private List<Review> reviews;
+    private Keynote keynote;
 }
