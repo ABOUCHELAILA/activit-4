@@ -1,0 +1,33 @@
+<div class="container mt-4" *ngIf="conference">
+  <h2>Détails de la Conférence : {{ conference.titre }}</h2>
+  <div class="card mb-4">
+    <div class="card-body">
+      <p><strong>Date :</strong> {{ conference.date | date:'medium' }}</p>
+      <p><strong>Durée :</strong> {{ conference.duree }} minutes</p>
+      <p><strong>Keynote ID :</strong> {{ conference.keynoteId }}</p>
+      <div *ngIf="conference.keynote">
+        <p><strong>Keynote :</strong> {{ conference.keynote.prenom }} {{ conference.keynote.nom }} ({{ conference.keynote.fonction }})</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Reviews</h3>
+  <ul class="list-group mb-4">
+    <li class="list-group-item" *ngFor="let r of reviews">
+      <strong>Note : {{ r.note }}/5</strong> - {{ r.texte }}
+    </li>
+  </ul>
+
+  <h4>Ajouter une Review</h4>
+  <form (ngSubmit)="addReview()">
+    <div class="mb-3">
+      <label class="form-label">Note (1-5)</label>
+      <input type="number" class="form-control" [(ngModel)]="newReview.note" name="note" min="1" max="5" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Texte</label>
+      <textarea class="form-control" [(ngModel)]="newReview.texte" name="texte" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Envoyer</button>
+  </form>
+</div>

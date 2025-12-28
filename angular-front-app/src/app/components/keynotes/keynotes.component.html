@@ -1,0 +1,27 @@
+<div class="container mt-4">
+  <h2>Liste des Keynotes</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Email</th>
+        <th>Fonction</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let k of keynotes">
+        <td>{{ k.id }}</td>
+        <td>{{ k.nom }}</td>
+        <td>{{ k.prenom }}</td>
+        <td>{{ k.email }}</td>
+        <td>{{ k.fonction }}</td>
+        <td>
+          <button class="btn btn-danger btn-sm" (click)="deleteKeynote(k.id!)">Supprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

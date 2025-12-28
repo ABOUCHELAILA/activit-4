@@ -1,0 +1,28 @@
+<div class="container mt-4">
+  <h2>Liste des Conférences</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Titre</th>
+        <th>Date</th>
+        <th>Durée (min)</th>
+        <th>Keynote ID</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let c of conferences">
+        <td>{{ c.id }}</td>
+        <td>{{ c.titre }}</td>
+        <td>{{ c.date | date:'short' }}</td>
+        <td>{{ c.duree }}</td>
+        <td>{{ c.keynoteId }}</td>
+        <td>
+          <a class="btn btn-info btn-sm me-2" [routerLink]="['/conferences', c.id]">Détails</a>
+          <button class="btn btn-danger btn-sm" (click)="deleteConference(c.id!)">Supprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
