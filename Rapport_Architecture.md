@@ -49,7 +49,23 @@ L'application frontend est développée avec **Angular 17**. Elle communique ave
 - Consultation des détails d'une conférence et de ses reviews.
 - Ajout de reviews sur les conférences.
 
-## 7. Guide de Test et Validation
+## 7. Guide de Déploiement Docker
+
+Le projet peut être déployé entièrement via Docker Compose.
+
+### Étapes :
+1. Construisez les fichiers JAR de tous les services : `mvn clean package -DskipTests`.
+2. Lancez l'infrastructure : `docker-compose up --build`.
+
+### Conteneurs inclus :
+- **Keycloak** : Serveur d'authentification (Port 8080).
+- **Discovery Service** : Annuaire Eureka (Port 8761).
+- **Config Service** : Centralisation des configurations (Port 8889).
+- **Gateway Service** : Point d'entrée (Port 8888).
+- **Functional Services** : Keynote et Conference.
+- **Angular App** : Interface utilisateur (Port 4200).
+
+## 8. Guide de Test et Validation
 
 Pour tester l'ensemble du système, suivez l'ordre de démarrage suivant :
 1. `discovery-service` (Port 8761)
@@ -93,6 +109,9 @@ curl http://localhost:8888/conferences
 4. Accéder à `http://localhost:4200`.
 
 L'application permet de visualiser les keynotes, les conférences et d'ajouter des reviews de manière interactive.
+
+## 9. Sécurité avec Keycloak
+Un guide de configuration spécifique est disponible dans le fichier `KEYCLOAK_CONFIG.md`. L'authentification est requise pour accéder aux APIs via la Gateway et pour utiliser les fonctionnalités avancées du frontend.
 
 ---
 *Rapport généré le 28 Décembre 2025*
